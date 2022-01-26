@@ -1,7 +1,7 @@
 ﻿using BusinessLayer.Interfaces.StoreOwner;
 using BusinessLayer.ResponseModels.ViewModels;
+using BusinessLayer.ResponseModels.ViewModels.StoreOwner;
 using BusinessLayer.Services;
-using BusinessLayer.ViewModels;
 using DataAcessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,12 +18,12 @@ namespace BusinessLayer.Services.StoreOwner
         {
         }
         //viet ham cho service
-        public async Task<List<CategoriesStoreOwnerViewModel>> GetCategoryList()
+        public async Task<List<CategoriesViewModel>> GetCategoryList()
         {
             var categories = await _unitOfWork.CategoryRepository
                 .Get()
                 .Select
-                (x => new CategoriesStoreOwnerViewModel()
+                (x => new CategoriesViewModel()
                 {
                     Id = x.Id,
                     Name = x.Name

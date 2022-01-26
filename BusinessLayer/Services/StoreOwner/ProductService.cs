@@ -3,7 +3,6 @@ using BusinessLayer.RequestModels.CreateModels;
 using BusinessLayer.RequestModels.SearchModels;
 using BusinessLayer.ResponseModels.ViewModels;
 using BusinessLayer.Services;
-using BusinessLayer.ViewModels;
 using DataAcessLayer.Interfaces;
 using DataAcessLayer.Models;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +14,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Utilities;
 using BusinessLayer.Interfaces.StoreOwner;
+using BusinessLayer.RequestModels.CreateModels.StoreOwner;
+using BusinessLayer.ResponseModel.ViewModels.StoreOwner;
+using BusinessLayer.RequestModels.SearchModels.StoreOwner;
 
 namespace BusinessLayer.Services.StoreOwner
 {
@@ -24,12 +26,12 @@ namespace BusinessLayer.Services.StoreOwner
         {
         }
 
-        public async Task<BasePagingViewModel<ProductsStoreOwnerViewModel>> GetProductList(int brandId, ProductSearchModel searchModel, PagingRequestModel paging)
+        public async Task<BasePagingViewModel<ProductsViewModel>> GetProductList(int brandId, ProductSearchModel searchModel, PagingRequestModel paging)
         {
             var productsData = await _unitOfWork.ProductRepository
                 .Get().Where(x => x.BrandId == brandId)
                 .Select
-                (x => new ProductsStoreOwnerViewModel()
+                (x => new ProductsViewModel()
                 {
                     Id = x.Id,
                     Name = x.Name,
@@ -72,7 +74,7 @@ namespace BusinessLayer.Services.StoreOwner
             productsData = productsData.Skip((paging.PageIndex - 1) * paging.PageSize)
                 .Take(paging.PageSize).ToList();
 
-            var productResult = new BasePagingViewModel<ProductsStoreOwnerViewModel>()
+            var productResult = new BasePagingViewModel<ProductsViewModel>()
             {
                 PageIndex = paging.PageIndex,
                 PageSize = paging.PageSize,
@@ -82,11 +84,11 @@ namespace BusinessLayer.Services.StoreOwner
             };
             return productResult;
         }
-        public async Task<ProductsStoreOwnerViewModel> GetProductById(int brandId,int productId)
+        public async Task<ProductsViewModel> GetProductById(int brandId,int productId)
         {
             var product = await _unitOfWork.ProductRepository
               .Get().Where(x => x.BrandId == brandId).Where(x=>x.Id == productId).Select
-                (x => new ProductsStoreOwnerViewModel()
+                (x => new ProductsViewModel()
                 {
                     Id = x.Id,
                     Name = x.Name,

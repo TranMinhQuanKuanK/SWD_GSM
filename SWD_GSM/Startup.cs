@@ -61,26 +61,26 @@ namespace SWD_GSM
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "SWD_GSM", Version = "v1" });
                 options.DocumentFilter<KebabCaseDocumentFilter>();
 
-                //options.TagActionsBy(api =>
-                //{
-                //    var controllerActionDescriptor = api.ActionDescriptor as ControllerActionDescriptor;
-                //    string controllerName = controllerActionDescriptor.ControllerName;
+                options.TagActionsBy(api =>
+                {
+                    var controllerActionDescriptor = api.ActionDescriptor as ControllerActionDescriptor;
+                    string controllerName = controllerActionDescriptor.ControllerName;
 
-                //    if (api.GroupName != null)
-                //    {
-                //        var name = api.GroupName + controllerName.Replace("Controller", "");
-                //        name = Regex.Replace(name, "([a-z])([A-Z])", "$1 $2");
-                //        return new[] { name };
-                //    }
+                    if (api.GroupName != null)
+                    {
+                        var name = api.GroupName + controllerName.Replace("Controller", "");
+                        name = Regex.Replace(name, "([a-z])([A-Z])", "$1 $2");
+                        return new[] { name };
+                    }
 
-                //    if (controllerActionDescriptor != null)
-                //    {
-                //        controllerName = Regex.Replace(controllerName, "([a-z])([A-Z])", "$1 $2");
-                //        return new[] { controllerName };
-                //    }
+                    if (controllerActionDescriptor != null)
+                    {
+                        controllerName = Regex.Replace(controllerName, "([a-z])([A-Z])", "$1 $2");
+                        return new[] { controllerName };
+                    }
 
-                //    throw new InvalidOperationException("Unable to determine tag for endpoint.");
-                //});
+                    throw new InvalidOperationException("Unable to determine tag for endpoint.");
+                });
 
                 options.DocInclusionPredicate((name, api) => true);
             });
@@ -109,7 +109,7 @@ namespace SWD_GSM
             services.AddTransient<IDailyRevenueService, DailyRevenueService>();
             services.AddTransient<IEventService, EventService>();
             services.AddTransient<IStockService, StockService>();
-            services.AddTransient<ICashierSevice, CashierSevice>();
+            services.AddTransient<ICashierService, CashierSevice>();
             //cashier
             services.AddTransient<BusinessLayer.Interfaces.Cashier.IProductService,
                  BusinessLayer.Services.Cashier.ProductService>();

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.ResponseModels.ErrorModels
+namespace BusinessLayer.ResponseModels.ErrorModels.StoreOwner
 {
     public class ProductErrorModel
     {

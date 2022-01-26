@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.ViewModels
+namespace BusinessLayer.ResponseModel.ViewModels.StoreOwner
 {
-    public class ProductsStoreOwnerViewModel
+    public class ProductsViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }

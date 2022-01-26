@@ -1,5 +1,5 @@
 ﻿using BusinessLayer.ResponseModels.ViewModels;
-using BusinessLayer.ViewModels;
+using BusinessLayer.ResponseModels.ViewModels.StoreOwner;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +10,6 @@ namespace BusinessLayer.Interfaces.StoreOwner
 {
     public interface ICategoryService
     {
-        Task<List<CategoriesStoreOwnerViewModel>> GetCategoryList();
+        Task<List<CategoriesViewModel>> GetCategoryList();
     }
 }

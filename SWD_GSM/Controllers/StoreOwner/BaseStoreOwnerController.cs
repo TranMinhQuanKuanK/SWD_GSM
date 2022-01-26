@@ -9,7 +9,7 @@ namespace SWD_GSM.Controllers.StoreOwner
 {
     public class BaseStoreOwnerController : BaseController
     {
-        protected const string Role = "Store Owner";
+        protected const string Role = "StoreOwner";
         protected const string StoreOwnerRoute = "api/" + Version + "/" + "store-owner" + "/[controller]";
     }
 }

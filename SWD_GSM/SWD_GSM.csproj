@@ -16,11 +16,4 @@
     <ProjectReference Include="..\DataAcessLayer\DataAcessLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\Cashier\" />
-    <Folder Include="Controllers\SystemAdmin\" />
-    <Folder Include="NewFolder\" />
-    <Folder Include="RequestModel\" />
-  </ItemGroup>
-
 </Project>

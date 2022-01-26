@@ -1,7 +1,10 @@
 ﻿using BusinessLayer.Interfaces;
+using BusinessLayer.Interfaces.StoreOwner;
 using BusinessLayer.RequestModels;
 using BusinessLayer.RequestModels.CreateModels;
+using BusinessLayer.RequestModels.CreateModels.StoreOwner;
 using BusinessLayer.RequestModels.SearchModels;
+using BusinessLayer.RequestModels.SearchModels.StoreOwner;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD_GSM.Constants;
@@ -14,6 +17,8 @@ namespace SWD_GSM.Controllers.StoreOwner
 {
     [Route(StoreOwnerRoute)]
     [ApiController]
+    [ApiExplorerSettings(GroupName = Role)]
+
     public class ProductsController : BaseStoreOwnerController
     {
         private readonly IProductService _productService;
@@ -42,6 +47,11 @@ namespace SWD_GSM.Controllers.StoreOwner
         [HttpGet]
         public async Task<IActionResult> Get(int BrandId, [FromQuery] ProductSearchModel searchModel, [FromQuery] PagingRequestModel paging)
         {
+            if (searchModel is null)
+            {
+                throw new ArgumentNullException(nameof(searchModel));
+            }
+
             try
             {
                 //check storeId

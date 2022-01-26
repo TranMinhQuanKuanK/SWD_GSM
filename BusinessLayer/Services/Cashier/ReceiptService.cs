@@ -4,7 +4,6 @@ using BusinessLayer.RequestModels.CreateModels;
 using BusinessLayer.RequestModels.SearchModels;
 using BusinessLayer.ResponseModels.ViewModels;
 using BusinessLayer.Services;
-using BusinessLayer.ViewModels;
 using DataAcessLayer.Interfaces;
 using DataAcessLayer.Models;
 using Microsoft.EntityFrameworkCore;

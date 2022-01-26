@@ -11,6 +11,11 @@ namespace DataAcessLayer.Models
         {
             UserBrands = new HashSet<UserBrand>();
         }
+        public enum UserStatus
+        {
+            Enabled,
+            Disabled
+        }
 
         public int Id { get; set; }
         public string Username { get; set; }
@@ -18,7 +23,7 @@ namespace DataAcessLayer.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public string Name { get; set; }
-        public int Status { get; set; }
+        public UserStatus Status { get; set; }
 
         public virtual ICollection<UserBrand> UserBrands { get; set; }
     }
