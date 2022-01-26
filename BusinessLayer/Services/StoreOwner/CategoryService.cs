@@ -1,5 +1,6 @@
-﻿using BusinessLayer.Interfaces;
+﻿using BusinessLayer.Interfaces.StoreOwner;
 using BusinessLayer.ResponseModels.ViewModels;
+using BusinessLayer.Services;
 using BusinessLayer.ViewModels;
 using DataAcessLayer.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BusinessLayer.Services
+namespace BusinessLayer.Services.StoreOwner
 {
     public class CategoryService : BaseService, ICategoryService
     {

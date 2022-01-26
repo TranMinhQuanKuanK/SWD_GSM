@@ -1,8 +1,8 @@
-﻿using BusinessLayer.Interfaces;
-using BusinessLayer.RequestModels;
+﻿using BusinessLayer.RequestModels;
 using BusinessLayer.RequestModels.CreateModels;
 using BusinessLayer.RequestModels.SearchModels;
 using BusinessLayer.ResponseModels.ViewModels;
+using BusinessLayer.Services;
 using BusinessLayer.ViewModels;
 using DataAcessLayer.Interfaces;
 using DataAcessLayer.Models;
@@ -14,8 +14,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Utilities;
+using BusinessLayer.Interfaces.StoreOwner;
 
-namespace BusinessLayer.Services
+namespace BusinessLayer.Services.StoreOwner
 {
     public class ProductService : BaseService, IProductService
     {

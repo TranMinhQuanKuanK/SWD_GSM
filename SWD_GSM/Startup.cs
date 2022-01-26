@@ -1,5 +1,9 @@
 using BusinessLayer.Interfaces;
+using BusinessLayer.Interfaces.StoreOwner;
+using BusinessLayer.Interfaces.SystemAdmin;
 using BusinessLayer.Services;
+using BusinessLayer.Services.StoreOwner;
+using BusinessLayer.Services.SystemAdmin;
 using DataAcessLayer;
 using DataAcessLayer.Interfaces;
 using DataAcessLayer.Models;
@@ -83,9 +87,38 @@ namespace SWD_GSM
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-
-            services.AddTransient<IProductService, ProductService>();
-            services.AddTransient<ICategoryService, CategoryService>();
+            //admin
+            services.AddTransient<BusinessLayer.Interfaces.SystemAdmin.IBrandService,
+                 BusinessLayer.Services.SystemAdmin.BrandService>();
+            services.AddTransient<BusinessLayer.Interfaces.SystemAdmin.IStoreService,
+                BusinessLayer.Services.SystemAdmin.StoreService>();
+            services.AddTransient<IUserService, UserService>();
+            //storeowner
+            services.AddTransient<BusinessLayer.Interfaces.StoreOwner.IProductService, 
+                 BusinessLayer.Services.StoreOwner.ProductService >();
+            services.AddTransient<BusinessLayer.Interfaces.StoreOwner.ICategoryService,
+                 BusinessLayer.Services.StoreOwner.CategoryService>();
+            services.AddTransient<BusinessLayer.Interfaces.StoreOwner.IBillService,
+                 BusinessLayer.Services.StoreOwner.BillService>();
+            services.AddTransient<BusinessLayer.Interfaces.StoreOwner.IReceiptService,
+                 BusinessLayer.Services.StoreOwner.ReceiptService>();
+            services.AddTransient<BusinessLayer.Interfaces.StoreOwner.IBrandService,
+                BusinessLayer.Services.StoreOwner.BrandService>();
+            services.AddTransient<BusinessLayer.Interfaces.StoreOwner.IStoreService,
+                BusinessLayer.Services.StoreOwner.StoreService>();
+            services.AddTransient<IDailyRevenueService, DailyRevenueService>();
+            services.AddTransient<IEventService, EventService>();
+            services.AddTransient<IStockService, StockService>();
+            services.AddTransient<ICashierSevice, CashierSevice>();
+            //cashier
+            services.AddTransient<BusinessLayer.Interfaces.Cashier.IProductService,
+                 BusinessLayer.Services.Cashier.ProductService>();
+            services.AddTransient<BusinessLayer.Interfaces.Cashier.ICategoryService,
+                 BusinessLayer.Services.Cashier.CategoryService>();
+            services.AddTransient<BusinessLayer.Interfaces.Cashier.IBillService,
+                BusinessLayer.Services.Cashier.BillService>();
+            services.AddTransient<BusinessLayer.Interfaces.Cashier.IReceiptService,
+                 BusinessLayer.Services.Cashier.ReceiptService>();
 
         }
 

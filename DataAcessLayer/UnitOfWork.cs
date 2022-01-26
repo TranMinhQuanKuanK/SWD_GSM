@@ -14,17 +14,51 @@ namespace DataAcessLayer
 
         public IGenericRepository<Product> ProductRepository { get; }
         public IGenericRepository<Category> CategoryRepository { get; }
-
+        public IGenericRepository<Bill> BillRepository { get; }
+        public IGenericRepository<BillDetail> BillDetailRepository { get; }
+        public IGenericRepository<Brand> BrandRepository { get; }
+        public IGenericRepository<Cashier> CashierRepository { get; }
+        public IGenericRepository<DailyRevenue> DailyrevenueRepository { get; }
+        public IGenericRepository<Event> EventRepository { get; }
+        public IGenericRepository<EventDetail> EventDetailRepository { get; }
+        public IGenericRepository<Receipt> ReceiptRepository { get; }
+        public IGenericRepository<ReceiptDetail> ReceiptDetailRepository { get; }
+        public IGenericRepository<Stock> StockRepository { get; }
+        public IGenericRepository<Store> StoreRepository { get; }
+        public IGenericRepository<User> UserRepository { get; }
         public UnitOfWork(GroceryCloudContext dbContext,
             IGenericRepository<Product> productRepository,
-            IGenericRepository<Category> categoryRepository
+            IGenericRepository<Category> categoryRepository,
+            IGenericRepository<Bill> billRepository,
+            IGenericRepository<BillDetail> billDetailRepository,
+            IGenericRepository<Brand> brandRepository,
+            IGenericRepository<Cashier> cashierRepository,
+            IGenericRepository<DailyRevenue> dailyrevenueRepository,
+            IGenericRepository<Event> eventRepository,
+            IGenericRepository<EventDetail> eventDetailRepository,
+            IGenericRepository<Receipt> receiptRepository,
+            IGenericRepository<ReceiptDetail> receiptDetailRepository,
+            IGenericRepository<Stock> stockRepository,
+            IGenericRepository<Store> storeRepository,
+            IGenericRepository<User> userRepository
             )
         {
             _dbContext = dbContext;
 
             ProductRepository = productRepository;
             CategoryRepository = categoryRepository;
-        }
+            BillRepository = billRepository;
+            BillDetailRepository = billDetailRepository;
+            BrandRepository = brandRepository;
+            CashierRepository = cashierRepository;
+            DailyrevenueRepository = dailyrevenueRepository;
+            EventRepository = eventRepository;
+            ReceiptRepository = receiptRepository;
+            ReceiptDetailRepository = receiptDetailRepository;
+            StockRepository = stockRepository;
+            StoreRepository = storeRepository;
+            UserRepository = userRepository;
+    }
 
         public GroceryCloudContext Context()
         {
