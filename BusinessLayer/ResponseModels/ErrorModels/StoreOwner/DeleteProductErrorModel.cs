@@ -13,6 +13,6 @@ namespace BusinessLayer.ResponseModels.ErrorModels.StoreOwner
     }
     public class DeleteProductErrorModel
     {
-        public List<ProductErrorModel> ParentProducts { get; set; }
+        public List<ProductErrorModel> InverseUnpackedProducts { get; set; }
     }
 }

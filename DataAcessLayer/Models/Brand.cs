@@ -7,6 +7,11 @@ namespace DataAcessLayer.Models
 {
     public partial class Brand
     {
+        public enum BrandStatus
+        {
+            Enabled,
+            Disabled
+        }
         public Brand()
         {
             Categories = new HashSet<Category>();
@@ -18,7 +23,7 @@ namespace DataAcessLayer.Models
 
         public int Id { get; set; }
         public string Name { get; set; }
-        public int Status { get; set; }
+        public BrandStatus Status { get; set; }
 
         public virtual ICollection<Category> Categories { get; set; }
         public virtual ICollection<Event> Events { get; set; }

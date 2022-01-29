@@ -4,6 +4,7 @@ using BusinessLayer.RequestModels;
 using BusinessLayer.RequestModels.CreateModels;
 using BusinessLayer.RequestModels.SearchModels;
 using BusinessLayer.RequestModels.SearchModels.StoreOwner;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD_GSM.Constants;
@@ -17,6 +18,7 @@ namespace SWD_GSM.Controllers.SystemAdmin
     [Route(SystemAdminRoute)]
     [ApiController]
     [ApiExplorerSettings(GroupName = Role)]
+    [Authorize(Roles = Role)]
 
     public class StoreController : BaseSystemAdminController
     {

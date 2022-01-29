@@ -17,6 +17,8 @@ using BusinessLayer.Interfaces.StoreOwner;
 using BusinessLayer.RequestModels.CreateModels.StoreOwner;
 using BusinessLayer.ResponseModel.ViewModels.StoreOwner;
 using BusinessLayer.RequestModels.SearchModels.StoreOwner;
+using static DataAcessLayer.Models.Product;
+using BusinessLayer.ResponseModels.ErrorModels.StoreOwner;
 
 namespace BusinessLayer.Services.StoreOwner
 {
@@ -25,7 +27,6 @@ namespace BusinessLayer.Services.StoreOwner
         public ProductService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
         }
-
         public async Task<BasePagingViewModel<ProductsViewModel>> GetProductList(int brandId, ProductSearchModel searchModel, PagingRequestModel paging)
         {
             var productsData = await _unitOfWork.ProductRepository
@@ -84,10 +85,10 @@ namespace BusinessLayer.Services.StoreOwner
             };
             return productResult;
         }
-        public async Task<ProductsViewModel> GetProductById(int brandId,int productId)
+        public async Task<ProductsViewModel> GetProductById(int brandId, int productId)
         {
             var product = await _unitOfWork.ProductRepository
-              .Get().Where(x => x.BrandId == brandId).Where(x=>x.Id == productId).Select
+              .Get().Where(x => x.BrandId == brandId).Where(x => x.Id == productId).Select
                 (x => new ProductsViewModel()
                 {
                     Id = x.Id,
@@ -107,7 +108,7 @@ namespace BusinessLayer.Services.StoreOwner
             return product;
         }
 
-        public async Task<int> AddProduct(int brandId,ProductCreateModel model)
+        public async Task<int> AddProduct(int brandId, ProductCreateModel model)
         {
             var product = new Product()
             {
@@ -125,6 +126,64 @@ namespace BusinessLayer.Services.StoreOwner
             await _unitOfWork.ProductRepository.Add(product);
             await _unitOfWork.SaveChangesAsync();
             return product.Id;
+        }
+        public async Task<bool> UpdateProduct(int brandId, int productId, ProductCreateModel model)
+        {
+            var product = await _unitOfWork.ProductRepository.Get()
+                .Where(x => x.BrandId.Equals(brandId))
+                .Where(x => x.Id.Equals(productId))
+                .FirstOrDefaultAsync();
+            if (product == null)
+            {
+                return false;
+            }
+
+            product.Name = model.Name;
+            product.UnpackedProductId = model.UnpackedProductId;
+            product.BuyPrice = model.BuyPrice;
+            product.SellPrice = model.SellPrice;
+            product.CategoryId = model.CategoryId;
+            product.ConversionRate = model.ConversionRate;
+            product.UnitLabel = model.UnitLabel;
+            product.LowerThreshold = model.LowerThreshold;
+            product.Status = model.Status;
+
+            _unitOfWork.ProductRepository.Update(product);
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
+        public async Task<DeleteProductErrorModel> DeleteProduct(int brandId, int productId)
+        {
+            var product = await _unitOfWork.ProductRepository.Get()
+                .Where(x => x.BrandId.Equals(brandId))
+                .Where(x => x.Id.Equals(productId))
+                .Include(x=>x.InverseUnpackedProduct)
+                .FirstOrDefaultAsync();
+            var result = new DeleteProductErrorModel() {
+                InverseUnpackedProducts = new List<ProductErrorModel>()
+            };
+            if (product == null)
+            {
+                throw new Exception();
+            }
+            foreach (Product p in product.InverseUnpackedProduct)
+            {
+                if (p.Status == ProductStatus.Selling)
+                    result.InverseUnpackedProducts
+                    .Add(new ProductErrorModel
+                    {
+                        Id = p.Id,
+                        Name = p.Name
+                    }
+                    );
+            }
+            if (result.InverseUnpackedProducts.Count == 0)
+            {
+                product.Status = ProductStatus.Disabled;
+                _unitOfWork.ProductRepository.Update(product);
+                await _unitOfWork.SaveChangesAsync();
+            }
+            return result;
         }
     }
 }

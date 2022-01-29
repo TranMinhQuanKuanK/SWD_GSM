@@ -2,6 +2,7 @@
 using BusinessLayer.RequestModels.CreateModels;
 using BusinessLayer.ResponseModels.ViewModels;
 using BusinessLayer.ResponseModels.ViewModels.StoreOwner;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -12,6 +13,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Utilities;
 
 namespace SWD_GSM.Controllers.StoreOwner
 {
@@ -36,20 +38,7 @@ namespace SWD_GSM.Controllers.StoreOwner
             var user = await _userService.Login(login);
             if (user != null)
             {
-                var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KeyForSignInSecret@1234"));
-                var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-                var tokenOptions = new JwtSecurityToken(
-                    issuer: "http://localhost:2000",
-                    audience: "http://localhost:2000",
-                    claims: new List<Claim>() {
-                    new Claim(ClaimTypes.Role, Role)
-                    },
-                    expires: DateTime.Now.AddDays(7),
-                    signingCredentials: signinCredentials
-                ); ;
-
-                var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+                string tokenString = CreateAuthenToken.GetToken(Role);
                 return Ok(new BaseLoginViewModel<StoreOwnerViewModel>()
                 {
                     Token = tokenString,
@@ -62,5 +51,5 @@ namespace SWD_GSM.Controllers.StoreOwner
             }
         }
 
-
     }
+}

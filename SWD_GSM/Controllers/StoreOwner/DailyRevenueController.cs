@@ -5,6 +5,7 @@ using BusinessLayer.RequestModels;
 using BusinessLayer.RequestModels.CreateModels;
 using BusinessLayer.RequestModels.SearchModels;
 using BusinessLayer.RequestModels.SearchModels.StoreOwner;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD_GSM.Constants;
@@ -18,6 +19,7 @@ namespace SWD_GSM.Controllers.StoreOwner
     [Route(StoreOwnerRoute)]
     [ApiController]
     [ApiExplorerSettings(GroupName = Role)]
+    [Authorize(Roles = Role)]
     public class CashierController : BaseStoreOwnerController
     {
         private readonly ICashierService _cashierService;

@@ -4,6 +4,7 @@ using BusinessLayer.Interfaces.StoreOwner;
 using BusinessLayer.RequestModels;
 using BusinessLayer.RequestModels.CreateModels;
 using BusinessLayer.RequestModels.SearchModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD_GSM.Constants;
@@ -17,6 +18,7 @@ namespace SWD_GSM.Controllers.StoreOwner
     [Route(StoreOwnerRoute)]
     [ApiController]
     [ApiExplorerSettings(GroupName = Role)]
+    [Authorize(Roles = Role)]
     public class DailyRevenueController : BaseStoreOwnerController
     {
         private readonly IDailyRevenueService _dailyRevenueService;

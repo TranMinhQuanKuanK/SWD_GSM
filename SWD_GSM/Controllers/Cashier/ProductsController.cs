@@ -1,6 +1,7 @@
 ﻿using BusinessLayer.Interfaces.Cashier;
 using BusinessLayer.RequestModels;
 using BusinessLayer.RequestModels.SearchModels.StoreOwner;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SWD_GSM.Constants;
 using System;
@@ -13,6 +14,7 @@ namespace SWD_GSM.Controllers.Cashier
     [Route(CashierRoute)]
     [ApiController]
     [ApiExplorerSettings(GroupName = Role)]
+    [Authorize(Roles = Role)]
     public class ProductsController : BaseCashierController
     {
         private readonly IProductService _productService;

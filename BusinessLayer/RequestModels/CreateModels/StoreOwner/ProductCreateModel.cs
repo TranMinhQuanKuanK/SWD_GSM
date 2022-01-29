@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static DataAcessLayer.Models.Product;
 
 namespace BusinessLayer.RequestModels.CreateModels.StoreOwner
 {
@@ -16,5 +17,6 @@ namespace BusinessLayer.RequestModels.CreateModels.StoreOwner
         public int? ConversionRate { get; set; }
         public string UnitLabel { get; set; }
         public int? LowerThreshold { get; set; }
+        public ProductStatus Status { get; set; }
     }
 }

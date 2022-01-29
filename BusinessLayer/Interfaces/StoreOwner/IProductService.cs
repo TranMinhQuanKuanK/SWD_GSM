@@ -4,6 +4,7 @@ using BusinessLayer.RequestModels.CreateModels.StoreOwner;
 using BusinessLayer.RequestModels.SearchModels;
 using BusinessLayer.RequestModels.SearchModels.StoreOwner;
 using BusinessLayer.ResponseModel.ViewModels.StoreOwner;
+using BusinessLayer.ResponseModels.ErrorModels.StoreOwner;
 using BusinessLayer.ResponseModels.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -18,5 +19,7 @@ namespace BusinessLayer.Interfaces.StoreOwner
         Task<BasePagingViewModel<ProductsViewModel>> GetProductList(int brandId, ProductSearchModel searchModel, PagingRequestModel paging);
         Task<ProductsViewModel> GetProductById(int brandId, int productId);
         Task<int> AddProduct(int brandId, ProductCreateModel model);
+        Task<bool> UpdateProduct(int brandÍd, int productId, ProductCreateModel model);
+        Task<DeleteProductErrorModel> DeleteProduct(int brandId, int productId);
     }
 }

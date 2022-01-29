@@ -7,6 +7,12 @@ namespace DataAcessLayer.Models
 {
     public partial class Store
     {
+        public enum StoreApproveStatus
+        {
+            Approved,
+            Pending,
+            Rejected
+        }
         public Store()
         {
             Bills = new HashSet<Bill>();
@@ -19,7 +25,7 @@ namespace DataAcessLayer.Models
         public int BrandId { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
-        public int ApprovedStatus { get; set; }
+        public StoreApproveStatus ApprovedStatus { get; set; }
 
         public virtual Brand Brand { get; set; }
         public virtual ICollection<Bill> Bills { get; set; }

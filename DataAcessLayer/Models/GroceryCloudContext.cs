@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.Extensions.Configuration;
 
 #nullable disable
 
@@ -37,8 +39,12 @@ namespace DataAcessLayer.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-V4RQDKU;Initial Catalog=GroceryCloud;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                IConfiguration config = new ConfigurationBuilder()
+                 .SetBasePath(Directory.GetCurrentDirectory())
+                 .AddJsonFile("appsettings.json", true, true)
+                 .Build();
+                String connectionString = config["ConnectionStrings:GroceryCloud"];
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
 
@@ -90,6 +96,7 @@ namespace DataAcessLayer.Models
                 entity.ToTable("Brand");
 
                 entity.Property(e => e.Name).IsRequired();
+                entity.Property(e => e.Status).HasConversion<int>();
             });
 
             modelBuilder.Entity<Cashier>(entity =>
@@ -102,6 +109,8 @@ namespace DataAcessLayer.Models
                 entity.Property(e => e.Name).IsRequired();
 
                 entity.Property(e => e.Password).IsRequired();
+
+                entity.Property(e => e.Status).HasConversion<int>();
 
                 entity.Property(e => e.Username)
                     .IsRequired()
@@ -243,6 +252,8 @@ namespace DataAcessLayer.Models
 
             modelBuilder.Entity<Stock>(entity =>
             {
+                entity.Property(e => e.Status).HasConversion<int>();
+
                 entity.HasKey(e => new { e.StoreId, e.ProductId })
                     .HasName("PK__Stock__F0C23D6DB11FB645");
 
@@ -266,7 +277,7 @@ namespace DataAcessLayer.Models
                 entity.ToTable("Store");
 
                 entity.Property(e => e.Name).IsRequired();
-
+                entity.Property(e => e.ApprovedStatus).HasConversion<int>();
                 entity.HasOne(d => d.Brand)
                     .WithMany(p => p.Stores)
                     .HasForeignKey(d => d.BrandId)
@@ -276,6 +287,8 @@ namespace DataAcessLayer.Models
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.Property(e => e.Status).HasConversion<int>();
+
                 entity.ToTable("User");
 
                 entity.HasIndex(e => e.Username, "UQ__User__536C85E4733884B2")

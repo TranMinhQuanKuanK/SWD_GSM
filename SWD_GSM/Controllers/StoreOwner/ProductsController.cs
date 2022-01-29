@@ -5,6 +5,7 @@ using BusinessLayer.RequestModels.CreateModels;
 using BusinessLayer.RequestModels.CreateModels.StoreOwner;
 using BusinessLayer.RequestModels.SearchModels;
 using BusinessLayer.RequestModels.SearchModels.StoreOwner;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD_GSM.Constants;
@@ -18,6 +19,8 @@ namespace SWD_GSM.Controllers.StoreOwner
     [Route(StoreOwnerRoute)]
     [ApiController]
     [ApiExplorerSettings(GroupName = Role)]
+    [Authorize]
+    [Authorize(Roles = "StoreOwner")]
 
     public class ProductsController : BaseStoreOwnerController
     {
@@ -27,22 +30,7 @@ namespace SWD_GSM.Controllers.StoreOwner
         {
             _productService = service;
         }
-        [NonAction]
-        private PagingRequestModel getDefaultPaging()
-        {
-            return new PagingRequestModel
-            {
-                PageIndex = PageConstant.DefaultPageIndex,
-                PageSize = PageConstant.DefaultPageSize
-            };
-        }
-        [NonAction]
-        private PagingRequestModel checkDefaultPaging(PagingRequestModel paging)
-        {
-            if (paging.PageIndex <= 0) paging.PageIndex = PageConstant.DefaultPageIndex;
-            if (paging.PageSize <= 0) paging.PageSize = PageConstant.DefaultPageSize;
-            return paging;
-        }
+
 
         [HttpGet]
         public async Task<IActionResult> Get(int BrandId, [FromQuery] ProductSearchModel searchModel, [FromQuery] PagingRequestModel paging)
@@ -83,6 +71,10 @@ namespace SWD_GSM.Controllers.StoreOwner
         {
             try
             {
+                if (model.ConversionRate <= 0 || model.BuyPrice < 0 || model.SellPrice < 0 || model.LowerThreshold < 0)
+                {
+                    return BadRequest();
+                }
                 var id = await _productService.AddProduct(BrandId, model);
             }
             catch (Exception)
@@ -90,6 +82,58 @@ namespace SWD_GSM.Controllers.StoreOwner
                 return BadRequest();
             }
             return Ok();
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int BrandId, int id, [FromBody] ProductCreateModel model)
+        {
+            try
+            {
+                if (model.ConversionRate <= 0 || model.BuyPrice < 0 || model.SellPrice < 0 || model.LowerThreshold < 0)
+                {
+                    return BadRequest();
+                }
+                await _productService.UpdateProduct(BrandId, id, model);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            return Ok();
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int BrandId, int id)
+        {
+            try
+            {
+                var result = await _productService.DeleteProduct(BrandId,id);
+                if (result.InverseUnpackedProducts.Count==0)
+                {
+                    return NoContent();
+                }else
+                {
+                    return Conflict(result);
+                }
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+        [NonAction]
+        private PagingRequestModel getDefaultPaging()
+        {
+            return new PagingRequestModel
+            {
+                PageIndex = PageConstant.DefaultPageIndex,
+                PageSize = PageConstant.DefaultPageSize
+            };
+        }
+        [NonAction]
+        private PagingRequestModel checkDefaultPaging(PagingRequestModel paging)
+        {
+            if (paging.PageIndex <= 0) paging.PageIndex = PageConstant.DefaultPageIndex;
+            if (paging.PageSize <= 0) paging.PageSize = PageConstant.DefaultPageSize;
+            return paging;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interfaces;
 using BusinessLayer.Interfaces.StoreOwner;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SWD_GSM.Controllers.StoreOwner;
@@ -13,6 +14,7 @@ namespace SWD_GSM.Controllers.StoreOwner
     [Route(StoreOwnerRoute)]
     [ApiController]
     [ApiExplorerSettings(GroupName = Role)]
+    [Authorize(Roles = Role)]
     public class CategoriesController : BaseStoreOwnerController
     {
         private readonly ICategoryService _categoryService;
